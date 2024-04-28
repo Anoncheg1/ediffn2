@@ -3,8 +3,8 @@
 ;; Copyright (c) 2024 github.com/Anoncheg1,codeberg.org/Anoncheg
 
 ;; Author: github.com/Anoncheg1,codeberg.org/Anoncheg
-;; Keywords: matching, isearch, navigation, dired, packagemenu
-;; URL: https://codeberg.org/Anoncheg/firstly-search
+;; Keywords:  comparing, merging, patching, vc, tools, unix
+;; URL: https://codeberg.org/Anoncheg/diffnw
 ;; Version: 0.0.1
 ;; Package-Requires: ((emacs "29.3"))
 
