@@ -5,7 +5,7 @@
 ;; Author: github.com/Anoncheg1,codeberg.org/Anoncheg
 ;; Keywords:  comparing, merging, patching, vc, tools, unix
 ;; URL: https://codeberg.org/Anoncheg/diffnw
-;; Version: 0.0.1
+;; Version: 0.0.2
 ;; Package-Requires: ((emacs "29.3"))
 
 ;; This file is not part of GNU Emacs.
@@ -65,8 +65,8 @@ ediff globally."
   :type '(boolean)
   :group 'ediffnw)
 
-
-(defmacro ediffnw--macro (fun)
+;;;###autoload
+(defmacro ediffnw-wrap-macro (fun)
   "Create wrap functions for Ediff with prefix: ediffnw-.
 Wrap function uses saved control buffer and execute function
 inside of it, after return
@@ -92,29 +92,28 @@ Argument FUN function that will be wrapped."
            (delete-window (get-buffer-window ediffnw-control-buffer)))))))
 
 ;; Wrap functions with "ediffnw-" prefix
-(ediffnw--macro ediff-previous-difference)
-(ediffnw--macro ediff-next-difference)
-(ediffnw--macro ediff-quit)
-(ediffnw--macro ediff-toggle-split)
-(ediffnw--macro ediff-toggle-hilit)
-(ediffnw--macro ediff-toggle-autorefine)
-(ediffnw--macro ediff-toggle-narrow-region)
-(ediffnw--macro ediff-update-diffs)
-(ediffnw--macro ediff-combine-diffs)
-(ediffnw--macro ediff-copy-A-to-B)
-(ediffnw--macro ediff-copy-B-to-A)
-(ediffnw--macro ediff-toggle-read-only)
-(ediffnw--macro ediff-recenter)
-(ediffnw--macro ediff-swap-buffers)
-(ediffnw--macro ediff-show-current-session-meta-buffer)
-(ediffnw--macro ediff-show-registry)
-(ediffnw--macro ediff-save-buffer)
-(ediffnw--macro ediff-inferior-compare-regions)
-(ediffnw--macro ediff-toggle-wide-display)
+(ediffnw-wrap-macro ediff-previous-difference)
+(ediffnw-wrap-macro ediff-next-difference)
+(ediffnw-wrap-macro ediff-quit)
+(ediffnw-wrap-macro ediff-toggle-split)
+(ediffnw-wrap-macro ediff-toggle-hilit)
+(ediffnw-wrap-macro ediff-toggle-autorefine)
+(ediffnw-wrap-macro ediff-toggle-narrow-region)
+(ediffnw-wrap-macro ediff-update-diffs)
+(ediffnw-wrap-macro ediff-combine-diffs)
+(ediffnw-wrap-macro ediff-copy-A-to-B)
+(ediffnw-wrap-macro ediff-copy-B-to-A)
+(ediffnw-wrap-macro ediff-toggle-read-only)
+(ediffnw-wrap-macro ediff-recenter)
+(ediffnw-wrap-macro ediff-swap-buffers)
+(ediffnw-wrap-macro ediff-show-current-session-meta-buffer)
+(ediffnw-wrap-macro ediff-show-registry)
+(ediffnw-wrap-macro ediff-save-buffer)
+(ediffnw-wrap-macro ediff-inferior-compare-regions)
+(ediffnw-wrap-macro ediff-toggle-wide-display)
 
-;; (global-set-key (kbd "C-M-") (lambda ()(interactive) (print "asd")))
 (defvar-keymap ediffnw-mode-map
-  :doc "Replacement for `ediff-setup-keymap'."
+  :doc "Replacement for `ediff-setup-keymap' that works in variants."
   ;; :parent firstly-search-tabulated-list-mode-map
   "C-M-k"	#'ediffnw-ediff-previous-difference
   "C-M-n"	#'ediffnw-ediff-next-difference
