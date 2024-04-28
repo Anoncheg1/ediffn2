@@ -142,16 +142,22 @@ Argument FUN function that will be wrapped."
   :lighter " ediff"
   :global nil)
 
+(defvar ediffnw--ediffnw-control-buffer nil
+"Temp variable that used only to set `ediffnw-control-buffer'.")
+
 (defun ediffnw--startup()
   "Save control buffer in `buffer-local' variables of variants."
-  (setq-default ediffnw-control-buffer ediff-control-buffer)
+  ;; save to temporary value
+  (setq ediffnw--ediffnw-control-buffer ediff-control-buffer)
 
   (with-current-buffer ediff-buffer-A
-    ;; (make-variable-buffer-local 'ediffnw-control-buffer)
+    ;; save in local-buffer value
+    (setq ediffnw-control-buffer ediffnw--ediffnw-control-buffer)
     (ediffnw-mode))
 
   (with-current-buffer ediff-buffer-B
-    ;; (make-variable-buffer-local 'ediffnw-control-buffer)
+    ;; save in local-buffer value
+    (setq ediffnw-control-buffer ediffnw--ediffnw-control-buffer)
     (ediffnw-mode)))
 
 ;;;###autoload
