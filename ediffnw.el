@@ -86,13 +86,13 @@ Argument FUN function that will be wrapped."
        ;; else - control buffer is separate window
        (let ((cb (current-buffer)))
          (switch-to-buffer ediffnw-control-buffer t t)
-         (condition-case nil
-             (progn
-               (call-interactively #',fun)
-               (switch-to-buffer cb)
-               (if ediffnw-purge-window
-                   (delete-window (get-buffer-window ediffnw-control-buffer))))
-           (user-error (switch-to-buffer cb))))))))
+         (condition-case e
+             (call-interactively #',fun)
+           (:success (switch-to-buffer cb)
+                     (if ediffnw-purge-window
+                         (delete-window (get-buffer-window ediffnw-control-buffer))))
+           ;; always switch and resignal
+           (error (switch-to-buffer cb) (error (cadr e)))))))))
 
 ;; Wrap functions with "ediffnw-" prefix
 (ediffnw-wrap-macro ediff-previous-difference)
@@ -160,7 +160,11 @@ Argument FUN function that will be wrapped."
   (with-current-buffer ediff-buffer-B
     ;; save in local-buffer value
     (setq ediffnw-control-buffer ediffnw--ediffnw-control-buffer)
-    (ediffnw-mode)))
+    (ediffnw-mode))
+  ;; purge window completely
+  (if ediffnw-purge-window
+      (delete-window (get-buffer-window ediffnw-control-buffer)))
+  )
 
 ;;;###autoload
 (defun ediffnw-files (file-a file-b)
