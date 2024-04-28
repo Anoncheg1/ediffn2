@@ -1,4 +1,4 @@
-;;; ediffnw.el --- Modify Ediff to get rid of control frame or window and rebind keys.  -*- lexical-binding: t -*-
+;;; ediffnw.el --- In Ediff, get rid of control window and rebind keys  -*- lexical-binding: t -*-
 
 ;; Copyright (c) 2024 github.com/Anoncheg1,codeberg.org/Anoncheg
 
@@ -60,7 +60,7 @@ ediff globally."
   :local nil
   :set (lambda (symbol value)
          (set-default symbol value)
-         (if value ; TODO: check symbol is purge-window
+         (if value ; TODO: check symbol is ediffnw-purge-window
              (setopt ediff-window-setup-function #'ediff-setup-windows-plain)))
   :type '(boolean)
   :group 'ediffnw)
@@ -134,8 +134,7 @@ Argument FUN function that will be wrapped."
   "C-M-R"	#'ediffnw-ediff-show-registry
   "C-M-w"	#'ediffnw-ediff-save-buffer
   "C-="	#'ediffnw-ediff-inferior-compare-regions
-  "C-M-m"	#'ediffnw-ediff-toggle-wide-display
-)
+  "C-M-m"	#'ediffnw-ediff-toggle-wide-display)
 
 ;;;###autoload
 (define-minor-mode ediffnw-mode
