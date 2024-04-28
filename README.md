@@ -1,7 +1,7 @@
 # ediffnw
 
 Addon to Ediff major mode that removes "control buffer" in form of frame or window.
-Adds rebinded Ediff keys to variants A, B buffers.
+Rebind Ediff keys and made them accessible in A, B variants windows.
 
 # Activation
 1) Execute ```M-x ediffnw RET```
