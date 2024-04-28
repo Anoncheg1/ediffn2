@@ -26,13 +26,15 @@
 ;;; Commentary:
 
 ;; Allow to execute Ediff commands in "variants" A, B windows without
-;; necessity to select control frame. A,B,C is not supported for now.
+;; necessity to select control frame.  A,B,C is not supported for now.
 
-;; Activation of this Ediff modification:
+;; Activation:
 ;; 1) Execute M-x ediffnw RET
 ;; 2) $ emacs --eval "(ediff \"/file1\" \"/file2\" )"
 
-;; Customization: M-x customize-variable RET ediffnw-purge-window RET
+;; Customization:
+
+;; M-x customize-variable RET ediffnw-purge-window RET
 
 ;; How it works:
 
@@ -44,7 +46,7 @@
 (require 'ediff)
 (require 'ediff-wind)
 
-(defvar ediffnw-control-buffer nil)
+(defvar-local ediffnw-control-buffer nil)
 
 (defgroup ediffnw nil
   "Ediff without control window."
@@ -67,7 +69,8 @@ ediff globally."
 (defmacro ediffnw--macro (fun)
   "Create wrap functions for Ediff with prefix: ediffnw-.
 Wrap function uses saved control buffer and execute function
-inside of it, after return"
+inside of it, after return
+Argument FUN function that will be wrapped."
   (let ((command-name (intern (format "ediffnw-%s" fun))))
   `(defun ,command-name ()
      (interactive)
@@ -141,25 +144,24 @@ inside of it, after return"
   :global nil)
 
 (defun ediffnw--startup()
-  "Saves control buffer in `buffer-local' variables of variants."
-  (print "wtf")
-  (setq ediffnw-control-buffer ediff-control-buffer)
+  "Save control buffer in `buffer-local' variables of variants."
+  (setq-default ediffnw-control-buffer ediff-control-buffer)
 
   (with-current-buffer ediff-buffer-A
-    (print (list "a" ediffnw-control-buffer))
-    (make-variable-buffer-local 'ediffnw-control-buffer)
+    ;; (make-variable-buffer-local 'ediffnw-control-buffer)
     (ediffnw-mode))
 
   (with-current-buffer ediff-buffer-B
-    (make-variable-buffer-local 'ediffnw-control-buffer)
+    ;; (make-variable-buffer-local 'ediffnw-control-buffer)
     (ediffnw-mode)))
 
 ;;;###autoload
 (defun ediffnw-files (file-a file-b)
   "Wrap `ediff-files' function with our initialization funcion.
-Interactive behaviour may alter."
+Interactive behaviour may alter.
+Argument FILE-A file A.
+Argument FILE-B file B."
   (interactive)
-  (print "hay1")
   (ediff-files file-a file-b '(ediffnw--startup)))
 
 ;;;###autoload
