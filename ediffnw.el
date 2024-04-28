@@ -92,8 +92,7 @@ Argument FUN function that will be wrapped."
                (switch-to-buffer cb)
                (if ediffnw-purge-window
                    (delete-window (get-buffer-window ediffnw-control-buffer))))
-           (user-error (switch-to-buffer cb))))
-))))
+           (user-error (switch-to-buffer cb))))))))
 
 ;; Wrap functions with "ediffnw-" prefix
 (ediffnw-wrap-macro ediff-previous-difference)
