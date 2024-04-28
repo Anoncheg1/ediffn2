@@ -5,7 +5,7 @@
 ;; Author: github.com/Anoncheg1,codeberg.org/Anoncheg
 ;; Keywords:  comparing, merging, patching, vc, tools, unix
 ;; URL: https://codeberg.org/Anoncheg/diffnw
-;; Version: 0.0.2
+;; Version: 0.0.3
 ;; Package-Requires: ((emacs "29.3"))
 
 ;; This file is not part of GNU Emacs.
@@ -86,10 +86,14 @@ Argument FUN function that will be wrapped."
        ;; else - control buffer is separate window
        (let ((cb (current-buffer)))
          (switch-to-buffer ediffnw-control-buffer t t)
-         (call-interactively #',fun)
-         (switch-to-buffer cb))
-       (if ediffnw-purge-window
-           (delete-window (get-buffer-window ediffnw-control-buffer)))))))
+         (condition-case nil
+             (progn
+               (call-interactively #',fun)
+               (switch-to-buffer cb)
+               (if ediffnw-purge-window
+                   (delete-window (get-buffer-window ediffnw-control-buffer))))
+           (user-error (switch-to-buffer cb))))
+))))
 
 ;; Wrap functions with "ediffnw-" prefix
 (ediffnw-wrap-macro ediff-previous-difference)
