@@ -30,7 +30,7 @@
 
 ;; Activation:
 ;; 1) Execute M-x ediffnw RET
-;; 2) $ emacs --eval "(ediff \"/file1\" \"/file2\" )"
+;; 2) $ emacs --eval "(ediffnw \"/file1\" \"/file2\" )"
 
 ;; Customization:
 
